@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00a21e884c8871a43be98f888a186045, type: 3}
+  m_Name: Tirion
+  m_EditorClassIdentifier: 
+  name: Tirion
+  description: This cad is Tirion
+  manaCost: 36
+  attack: 24
+  health: 18
+  artImage: {fileID: 21300000, guid: 5c88a907f1826174d832eadfad0d7832, type: 3}
