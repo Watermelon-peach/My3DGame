@@ -13,7 +13,6 @@ namespace MySample
         public int attack;          //공격력
         public int health;          //체력
 
-        public Sprite artImage;     //카드 아트 이미지
+        public Sprite atrImage;     //카드 아트 이미지
     }
-
 }

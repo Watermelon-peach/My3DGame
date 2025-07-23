@@ -12,5 +12,4 @@ namespace My3DGame
         public string name;         //대화 캐릭터 이름
         public string sentence;     //대화 내용
     }
-
 }

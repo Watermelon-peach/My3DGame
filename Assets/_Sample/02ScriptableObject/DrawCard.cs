@@ -8,7 +8,7 @@ namespace MySample
     public class DrawCard : MonoBehaviour
     {
         #region Variables
-        //카드 정보
+        //카드정보
         public Card card;       //카드 정보를 담은 스크립터블 오브젝트
 
         public TextMeshProUGUI nameText;
@@ -38,10 +38,8 @@ namespace MySample
             attackText.text = card.attack.ToString();
             healthText.text = card.health.ToString();
 
-            artWork.sprite = card.artImage;
+            artWork.sprite = card.atrImage;
         }
         #endregion
     }
-
 }
-    

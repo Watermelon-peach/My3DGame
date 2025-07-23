@@ -2,33 +2,32 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Xml;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace My3DGame
 {
-    //데이터 파일을 읽어서 대화 정보 가져오기 
+    //데이터 파일을 읽어서 대화 정보 가져오기
     //대화창 그리기
-
     public class DrawDialog : MonoBehaviour
     {
         #region Variables
         //데이터 파일 읽기
         [SerializeField]
-        private string xmlFile = "Dialog";      //데이터 파일 이름
-        private XmlNodeList allNodes;            //XML node 리스트
+        private string xmlFile = "Dialog";        //데이터 파일 이름
+        private XmlNodeList allNodes;                //모든 대화 리스트
 
-        //현재 대화 담기
+        //현재 대화
         private Queue<Dialog> dialogs;
 
         //UI
         public TextMeshProUGUI nameText;
         public TextMeshProUGUI sentenceText;
-        public GameObject npcImage;
+        public GameObject nacImage;
         public GameObject nextButton;
 
         private bool isTyping = false;
-        private string tempSentence = "";
+        private string tmpSentence = "";
         #endregion
 
         #region Unity Event Method
@@ -45,15 +44,15 @@ namespace My3DGame
 
         #region Custom Method
         //xml 파일 읽어서 XmlNodeList에 담기
-        private void LoadDialogXml (string filename)
+        private void LoadDialogXml(string filename)
         {
             var xmlTextFile = Resources.Load<TextAsset>("Dialog/" + filename);
-            
+
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(xmlTextFile.text);
             allNodes = xmlDoc.SelectNodes("root/dialog");
         }
-
+        
         //Dialog 초기화
         private void InitDialog()
         {
@@ -61,7 +60,7 @@ namespace My3DGame
             dialogs.Clear();
 
             //UI 초기화
-            npcImage.SetActive(false);
+            nacImage.SetActive(false);
             nameText.text = "";
             sentenceText.text = "";
 
@@ -71,11 +70,11 @@ namespace My3DGame
         //매개변수로 들어온 인덱스의 Dialog 시작하기
         public void StartDialog(int dialogIndex)
         {
-            //모든 노드에서 현재 대화를 찾아 Queue에 저장
+            //모든 노드에서 현재 대화 노드를 찾아 Queue에 저장
             foreach (XmlNode node in allNodes)
             {
                 int num = int.Parse(node["number"].InnerText);
-                if (num == dialogIndex)
+                if(num == dialogIndex)
                 {
                     Dialog dialog = new Dialog();
                     dialog.number = num;
@@ -87,13 +86,13 @@ namespace My3DGame
                 }
             }
 
-            //다이알로그 시작 연출
-            /*if (dialogs.Count > 0)
+            //다이알 로그 시작 연출
+            /*if(dialogs.Count > 0)
             {
 
             }*/
 
-            //첫번재 대화 보여주기
+            //첫번째 대화 보여주기
             DrawNext();
         }
 
@@ -101,46 +100,47 @@ namespace My3DGame
         public void DrawNext()
         {
             //dialogs 체크
-            if (dialogs.Count <= 0)
+            if(dialogs.Count <= 0)
             {
                 EndDialog();
                 return;
             }
 
-            //다음 버튼 안 보이기
+            //다음 버튼 안보이기
             nextButton.SetActive(false);
 
             //현재 보여줄 대화를 큐에서 대화 내용 꺼내기
             Dialog dialog = dialogs.Dequeue();
 
-            if (dialog.character > 0)
+            //npn 이미지 보여주기
+            if(dialog.character > 0)
             {
-                npcImage.SetActive(true);
-                npcImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("Dialog/Npc/npc0" + dialog.character.ToString());
+                nacImage.SetActive(true);
+                nacImage.GetComponent<Image>().sprite =
+                    Resources.Load<Sprite>("Dialog/Npc/npc0" + dialog.character.ToString());
             }
             else
             {
-                npcImage.SetActive(false);
+                nacImage.SetActive(false);
             }
 
-            //대화 캐릭터 이름
+            //대화캐릭터 이름
             nameText.text = dialog.name;
 
             //대화 내용
-            tempSentence = dialog.sentence;
+            tmpSentence = dialog.sentence;
             StartCoroutine(typingSentence(dialog.sentence));
-            //sentenceText.text = dialog.sentence;
         }
 
-        //대화 내용 타이핑 연출
+        //대화 내용 타이팅 연출 
         IEnumerator typingSentence(string typingText)
         {
             isTyping = true;
             sentenceText.text = "";
 
-            foreach (char letter in typingText)
+            foreach (char latter in typingText)
             {
-                sentenceText.text += letter;
+                sentenceText.text += latter;
                 yield return new WaitForSeconds(0.03f);
             }
 
@@ -152,13 +152,14 @@ namespace My3DGame
         public void SkipTyping()
         {
             //현재 타이핑 연출
-            if (!isTyping)
+            if (isTyping == false)
                 return;
 
             //코루틴 종료
             StopAllCoroutines();
 
-            sentenceText.text = tempSentence;
+            sentenceText.text = tmpSentence;
+
             //다음 대화 버튼 보이기
             nextButton.SetActive(true);
             isTyping = false;
@@ -167,13 +168,11 @@ namespace My3DGame
         //대화 종료
         public void EndDialog()
         {
-            //다이알로그 초기화
+            //다이알 로그 초기화
             InitDialog();
 
-            //다이알로그 연출
-
+            //다이알 로그 종료 연출
         }
         #endregion
     }
-
 }

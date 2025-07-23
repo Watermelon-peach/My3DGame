@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00a21e884c8871a43be98f888a186045, type: 3}
+  m_Script: {fileID: 11500000, guid: 93e334a0685af6541bf0e66f899a728e, type: 3}
   m_Name: Tirion
   m_EditorClassIdentifier: 
   name: Tirion
-  description: This cad is Tirion
-  manaCost: 36
-  attack: 24
+  description: This card is Tirion
+  manaCost: 24
+  attack: 36
   health: 18
-  artImage: {fileID: 21300000, guid: 5c88a907f1826174d832eadfad0d7832, type: 3}
+  atrImage: {fileID: 21300000, guid: c6e5c45f20244a74b9de464fbc73d5dc, type: 3}
