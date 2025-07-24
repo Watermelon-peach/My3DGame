@@ -22,6 +22,15 @@ namespace My3DGame.ItemSystem
         [TextArea(15,20)]
         public string description;          //아이템 설명글
         #endregion
+        
+        #region Custom Method
+        //게임에서 사용하는 아이템 생성
+        public Item CreateItem()
+        {
+            Item newItem = new Item(this);
+            return newItem;
+        }
+        #endregion
     }
 
 }

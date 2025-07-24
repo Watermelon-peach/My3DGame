@@ -13,6 +13,8 @@ namespace My3DGame.ItemSystem
         #region Variables
         public int id;
         public string name;
+
+        public ItemBuff[] buffs;
         #endregion
 
 
@@ -21,6 +23,20 @@ namespace My3DGame.ItemSystem
         {
             id = -1;
             name = null;
+        }
+
+        //게임에서 사용하는 아이템 생성
+        public Item(ItemSO itemObject)
+        {
+            id = itemObject.data.id;
+            name = itemObject.name;
+
+            buffs = new ItemBuff[itemObject.data.buffs.Length];
+            for (int i = 0; i < buffs.Length; i++)
+            {
+                buffs[i] = new ItemBuff(itemObject.data.buffs[i].Min, itemObject.data.buffs[i].Max);
+                buffs[i].stat = itemObject.data.buffs[i].stat;
+            }
         }
         #endregion
     }

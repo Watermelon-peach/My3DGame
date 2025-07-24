@@ -43,4 +43,12 @@ namespace My3DGame.Common
         Food,
         Default,
     }
+
+    //인벤토리 타입
+    public enum InventoryType
+    {
+        Inventory,              //창고형
+        Equipment,              //장착형
+
+    }
 }

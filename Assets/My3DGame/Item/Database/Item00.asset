@@ -15,6 +15,11 @@ MonoBehaviour:
   data:
     id: 0
     name: item00
+    buffs:
+    - stat: 0
+      value: 0
+      min: 0
+      max: 0
   type: 0
   stackable: 0
   icon: {fileID: 0}
