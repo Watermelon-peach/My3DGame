@@ -1,6 +1,7 @@
 using System;
 using My3DGame.ItemSystem;
 using My3DGame.Common;
+using UnityEngine;
 
 namespace My3DGame.InventorySystem
 {
@@ -21,6 +22,8 @@ namespace My3DGame.InventorySystem
 
         [NonSerialized]
         public InventorySO parent;
+        [NonSerialized]
+        public GameObject slotUI;
 
         [NonSerialized]
         public Action<ItemSlot> OnPreUpdate;    //슬롯 갱신하기 전에 등록된 함수를 호출해서 실행

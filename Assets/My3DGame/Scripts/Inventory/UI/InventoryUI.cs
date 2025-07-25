@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace My3DGame.InventorySystem
 {
@@ -17,6 +20,13 @@ namespace My3DGame.InventorySystem
         public InventorySO inventoryObject;
 
         public Dictionary<GameObject, ItemSlot> slotUIs = new Dictionary<GameObject, ItemSlot>();
+
+        //슬롯 선택
+        protected GameObject selectSlotObject = null;       //현재 선택된 슬롯 오브젝트
+
+        public Action<GameObject> OnUpdateSelectslot;       //슬롯 선택 시 등록된 함수를 호출하는 이벤트 함수
+
+        public ItemInfoUI itemInfoUI;                       //선택된 슬롯의 아이템 정보 창
         #endregion
 
         #region Unity Event Method
@@ -38,6 +48,8 @@ namespace My3DGame.InventorySystem
             //이벤트 추가
             AddEvent(gameObject, EventTriggerType.PointerEnter, delegate { OnEnterInterface(gameObject); });
             AddEvent(gameObject, EventTriggerType.PointerExit, delegate { OnExitInterface(gameObject); });
+
+            UpdateSelectSlot(null);
         }
         #endregion
 
@@ -48,7 +60,18 @@ namespace My3DGame.InventorySystem
         //ItemSlot Update 시 변경 후 호출되는 이벤트 함수에 등록
         public void OnPostUpdate(ItemSlot slot)
         {
+            //아이템 슬롯 체크
+            if (slot == null || slot.slotUI == null)
+            {
+                return;
+            }
 
+            slot.slotUI.transform.GetChild(0).GetComponent<Image>().sprite
+                = slot.item.id < 0 ? null : slot.ItemObject.icon;
+            slot.slotUI.transform.GetChild(0).GetComponent<Image>().color
+                = slot.item.id < 0 ? new Color(1, 1, 1, 0) : new Color(1, 1, 1, 1);
+            slot.slotUI.GetComponentInChildren<TextMeshProUGUI>().text
+                = slot.item.id < 0 ? string.Empty : (slot.amount ==1 ? string.Empty :slot.amount.ToString());
         }
 
         //이벤트 함수 등록
@@ -80,6 +103,82 @@ namespace My3DGame.InventorySystem
         {
             Debug.Log($"OnExitInterface Object: {go.name}");
         }
+        
+        //슬롯 UI 오브젝트에 마우스가 들어가면 호출
+        public void OnEnter(GameObject go)
+        {
+            Debug.Log($"OnEnter SlotUI Object: {go.name}");
+        }
+
+        //슬롯 UI 오브젝트에서 마우스가 나오면 호출
+        public void OnExit(GameObject go)
+        {
+            Debug.Log($"OnExit SlotUI Object: {go.name}");
+        }
+
+        //슬롯 UI를 가지고 마우스 드래그 시작할 때 호출
+        public void OnStartDrag(GameObject go)
+        {
+            Debug.Log($"OnStartDrag SlotUI object : {go.name}");
+        }
+
+        //슬롯 UI를 가지고 마우스 드래그 중
+        public void OnDrag(GameObject go)
+        {
+            Debug.Log($"OnDrag SlotUI object : {go.name}");
+        }
+
+        //슬롯 UI를 가지고 마우스 드래그를 끝낼 때 호출
+        public void OnEndDrag(GameObject go)
+        {
+            Debug.Log($"OnEndDrag SlotUI object : {go.name}");
+        }
+
+        //슬롯 UI를 마우스가 선택시 호출
+        public void OnClick(GameObject go)
+        {
+            //이벤트 함수에 등록된 함수 먼저 호출
+            //OnUpdateSelectslot?.Invoke(go);
+
+            //슬롯 선택
+            ItemSlot slot = slotUIs[go];
+            Debug.Log($"slot.item.id: {slot.item.id}");
+
+            //아이템 체크
+            if (slot.item.id >= 0)
+            {
+                if (selectSlotObject ==go)
+                {
+                    UpdateSelectSlot(null);
+                }
+                else
+                {
+                    UpdateSelectSlot(go);
+                }
+            }
+
+        }
+
+        //슬롯 선택
+        public virtual void UpdateSelectSlot(GameObject go)
+        {
+            //선택된 슬롯 오브젝트 저장
+            selectSlotObject = go;
+
+            //선택UI 활성화
+            foreach (KeyValuePair<GameObject,ItemSlot> slot in slotUIs)
+            {
+                if (slot.Key == go)
+                {
+                    slot.Value.slotUI.transform.GetChild(1).GetComponent<Image>().enabled = true;
+                }
+                else
+                {
+                    slot.Value.slotUI.transform.GetChild(1).GetComponent<Image>().enabled = false;
+                }
+            }
+        }
+
         #endregion
     }
 

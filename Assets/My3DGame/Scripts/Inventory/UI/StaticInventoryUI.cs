@@ -1,29 +1,26 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace My3DGame.InventorySystem
 {
     /// <summary>
-    /// 가변적인 아이템 슬롯을 가진 인벤토리 UI를 관리하는 클래스, InventoryUI 상속
+    /// 개수와 자리가 고정된 아이템 슬롯을 가진 인벤토리 UI를 관리하는 클래스, InventoryUI 상속
     /// </summary>
-    public class DynamicInventoryUI : InventoryUI
+    public class StaticInventoryUI : InventoryUI
     {
         #region Variables
-        public GameObject slotPrefab;   //슬롯 UI 프리팹
-        public Transform slotsParent;   //생성 시 지정되는 부모 오브젝트
+        public GameObject[] staticSlots;
         #endregion
 
         #region Custom Method
-
-        #endregion
         public override void CreateSlots()
         {
             slotUIs = new Dictionary<GameObject, ItemSlot>();
 
             for (int i = 0; i < inventoryObject.Slots.Length; i++)
             {
-                GameObject go = Instantiate(slotPrefab, Vector3.zero, Quaternion.identity, slotsParent);
+                GameObject go = staticSlots[i];
 
                 //생성된 슬롯 오브젝트의 트리거에 이벤트 등록
                 AddEvent(go, EventTriggerType.PointerEnter, delegate { OnEnter(go); });
@@ -36,25 +33,9 @@ namespace My3DGame.InventorySystem
                 //slotUIs 등록
                 inventoryObject.Slots[i].slotUI = go;
                 slotUIs.Add(go, inventoryObject.Slots[i]);
-                go.name = ": " + i.ToString();
-            }
-
-        }
-
-        public override void UpdateSelectSlot(GameObject go)
-        {
-            base.UpdateSelectSlot(go);
-
-            if (selectSlotObject == null)
-            {
-                itemInfoUI.gameObject.SetActive(false);
-            }
-            else
-            {
-                itemInfoUI.gameObject.SetActive(true);
-                itemInfoUI.SetItemInfoUI(slotUIs[selectSlotObject]);
             }
         }
+        #endregion
     }
 
 }
