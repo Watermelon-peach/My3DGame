@@ -96,49 +96,77 @@ namespace My3DGame.InventorySystem
         public void OnEnterInterface(GameObject go)
         {
             Debug.Log($"OnEnterInterface Object: {go.name}");
+            MouseData.inventoryUIMouseOver = go.GetComponent<InventoryUI>();
         }
 
         //인벤토리 UI에 마우스가 나가면 호출
         public void OnExitInterface(GameObject go)
         {
             Debug.Log($"OnExitInterface Object: {go.name}");
+            MouseData.inventoryUIMouseOver = null;
         }
         
         //슬롯 UI 오브젝트에 마우스가 들어가면 호출
         public void OnEnter(GameObject go)
         {
             Debug.Log($"OnEnter SlotUI Object: {go.name}");
+            MouseData.slotObjectMouseOver = go;
         }
 
         //슬롯 UI 오브젝트에서 마우스가 나오면 호출
         public void OnExit(GameObject go)
         {
             Debug.Log($"OnExit SlotUI Object: {go.name}");
+            MouseData.slotObjectMouseOver = null;
         }
 
         //슬롯 UI를 가지고 마우스 드래그 시작할 때 호출
         public void OnStartDrag(GameObject go)
         {
             Debug.Log($"OnStartDrag SlotUI object : {go.name}");
+
+            MouseData.tempItemBeginDragged = CreateDragItem(go);
+
         }
 
         //슬롯 UI를 가지고 마우스 드래그 중
         public void OnDrag(GameObject go)
         {
-            Debug.Log($"OnDrag SlotUI object : {go.name}");
+            //Debug.Log($"OnDrag SlotUI object : {go.name}");
+            if (MouseData.tempItemBeginDragged == null)
+                return;
+            //마우스의 위치르르 임시 드래그 이미지 위치와 동기화
+            MouseData.tempItemBeginDragged.GetComponent<RectTransform>().position = Input.mousePosition;
         }
 
         //슬롯 UI를 가지고 마우스 드래그를 끝낼 때 호출
         public void OnEndDrag(GameObject go)
         {
-            Debug.Log($"OnEndDrag SlotUI object : {go.name}");
+            //Debug.Log($"OnEndDrag SlotUI object : {go.name}");
+            //임시 드래그 아이템 제거
+            Destroy(MouseData.tempItemBeginDragged);
+
+            //마우스의 위치가 인벤토리UI 밖에 있을 경우
+            if (MouseData.inventoryUIMouseOver == null)
+            {
+                //아이템 버리기
+                slotUIs[go].AddAmount(-1);
+            }
+            else if (MouseData.slotObjectMouseOver != null) //마우스의 위치가 머시기
+            {
+                //아이템 슬롯 교환
+                //마우스가 위치한 아이템 슬롯 오브젝트에서 아이템 슬롯 가져오기
+                ItemSlot mouseHoverSlot = MouseData.inventoryUIMouseOver.slotUIs[MouseData.slotObjectMouseOver];
+                //마우스 드래그한 오브젝트에서 아이템 슬롯 가져오기 slotUIs[go]
+                inventoryObject.SwapItems(slotUIs[go], mouseHoverSlot);
+            }
         }
 
         //슬롯 UI를 마우스가 선택시 호출
         public void OnClick(GameObject go)
         {
-            //이벤트 함수에 등록된 함수 먼저 호출
-            //OnUpdateSelectslot?.Invoke(go);
+            //이벤트 함수에 등록된 함수 먼저 호출 - 다른 인벤토리 UI의 선택을 해제
+            OnUpdateSelectslot?.Invoke(null);
 
             //슬롯 선택
             ItemSlot slot = slotUIs[go];
@@ -179,6 +207,26 @@ namespace My3DGame.InventorySystem
             }
         }
 
+        //마우스 드래그시 달고다니는 머시기
+        private GameObject CreateDragItem(GameObject go)
+        {
+            //아이템 체크
+            if (slotUIs[go].item.id <= -1)
+            {
+                return null;
+            }
+
+            GameObject dragItem = new GameObject();
+            RectTransform rectTransform = dragItem.AddComponent<RectTransform>();
+            rectTransform.sizeDelta = new Vector2(50, 50);
+            dragItem.transform.SetParent(transform.parent); //부모 캔바스 지정
+            Image itemImage = dragItem.AddComponent<Image>();
+            itemImage.sprite = slotUIs[go].ItemObject.icon;
+            itemImage.raycastTarget = false;
+            dragItem.name = "Drag Item Image";
+
+            return dragItem;
+        }
         #endregion
     }
 

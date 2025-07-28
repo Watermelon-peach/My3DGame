@@ -1037,7 +1037,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 465094484}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1390892470}
+        m_TargetAssemblyTypeName: My3DGame.InventorySystem.DynamicInventoryUI, Assembly-CSharp
+        m_MethodName: EquipItem
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &465094484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1158,7 +1170,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 508951606}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1390892470}
+        m_TargetAssemblyTypeName: My3DGame.InventorySystem.DynamicInventoryUI, Assembly-CSharp
+        m_MethodName: SellItem
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &508951606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4182,7 +4206,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemDataBase: {fileID: 11400000, guid: c2f2bc243c87909429911f0a56d6d523, type: 2}
   inventoryObject: {fileID: 11400000, guid: 2fc4fa5f5a7636e4cbb9aecca9eeaecf, type: 2}
-  index: 2
+  playerInventoryUI: {fileID: 1390892470}
+  playerEquipmentUI: {fileID: 663062733}
+  index: 0
 --- !u!1 &1278283721
 GameObject:
   m_ObjectHideFlags: 0
@@ -4391,7 +4417,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1305919730}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1390892470}
+        m_TargetAssemblyTypeName: My3DGame.InventorySystem.DynamicInventoryUI, Assembly-CSharp
+        m_MethodName: UseItem
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1305919730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4901,6 +4939,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: {fileID: 1509460038}
   itemDescription: {fileID: 1761428750}
+  equipButton: {fileID: 465094481}
+  useButton: {fileID: 1305919727}
+  sellButton: {fileID: 508951603}
+  unequipButton: {fileID: 1269806697}
 --- !u!1 &1515792483
 GameObject:
   m_ObjectHideFlags: 0

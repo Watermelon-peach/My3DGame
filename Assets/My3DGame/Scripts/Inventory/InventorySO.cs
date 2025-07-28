@@ -106,6 +106,18 @@ namespace My3DGame.InventorySystem
                 itemB.UpdateSlot(tempSlot.item, tempSlot.amount);
             }
         }
+
+        //아이템 사용하기
+        public void UseItem(ItemSlot useSlot)
+        {
+            //슬롯 체크
+            if (useSlot.ItemObject == null || useSlot.item.id <= -1 || useSlot.amount <= 0)
+                return;
+
+            //
+            Debug.Log($"{useSlot.item.name} 효과 구현");
+            useSlot.AddAmount(-1);
+        }
         #endregion
 
         //인벤토리 데이터 json 파일 저장하기, 불러오기

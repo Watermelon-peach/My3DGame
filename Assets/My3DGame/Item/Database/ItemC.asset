@@ -26,6 +26,7 @@ MonoBehaviour:
       max: 10
   type: 3
   stackable: 0
+  shopPrice: 1000
   icon: {fileID: 21300000, guid: f2ac5bc18f885304ca289feb13e55386, type: 3}
   modelPrefab: {fileID: 0}
   description: This item name is ItemC

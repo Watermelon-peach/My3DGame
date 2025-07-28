@@ -15,23 +15,43 @@ MonoBehaviour:
   container:
     slots:
     - item:
-        id: -1
-        name: 
-        buffs: []
-      amount: 0
-      allowedItems: 
+        id: 0
+        name: ItemA
+        buffs:
+        - stat: 2
+          value: 9
+          min: 5
+          max: 10
+      amount: 1
+      allowedItems: 00000000
     - item:
-        id: -1
-        name: 
-        buffs: []
-      amount: 0
-      allowedItems: 
+        id: 1
+        name: ItemB
+        buffs:
+        - stat: 3
+          value: 10
+          min: 8
+          max: 12
+        - stat: 0
+          value: 5
+          min: 3
+          max: 8
+      amount: 1
+      allowedItems: 07000000
     - item:
-        id: -1
-        name: 
-        buffs: []
-      amount: 0
-      allowedItems: 
+        id: 2
+        name: ItemC
+        buffs:
+        - stat: 2
+          value: 6
+          min: 6
+          max: 9
+        - stat: 1
+          value: 8
+          min: 7
+          max: 10
+      amount: 1
+      allowedItems: 03000000
   database: {fileID: 11400000, guid: c2f2bc243c87909429911f0a56d6d523, type: 2}
   type: 1
   savePath: /Equipment.json

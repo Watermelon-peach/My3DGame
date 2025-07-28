@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using My3DGame.Manager;
 
 namespace My3DGame.InventorySystem
 {
@@ -34,6 +35,53 @@ namespace My3DGame.InventorySystem
                 inventoryObject.Slots[i].slotUI = go;
                 slotUIs.Add(go, inventoryObject.Slots[i]);
             }
+        }
+
+        public override void UpdateSelectSlot(GameObject go)
+        {
+            base.UpdateSelectSlot(go);
+
+            if (selectSlotObject == null)
+            {
+                itemInfoUI.gameObject.SetActive(false);
+            }
+            else
+            {
+                itemInfoUI.gameObject.SetActive(true);
+                itemInfoUI.SetItemInfoUI(slotUIs[selectSlotObject], true);
+            }
+        }
+
+        public void UnEquip()
+        {
+            //선택 아이템 오브젝트 체크
+            if (selectSlotObject == null)
+                return;
+
+            //인벤토리에 제거하는 아이템 추가 - 인벤 풀 체크
+            if (UIManager.Instance.AddItemInventory(slotUIs[selectSlotObject].item, 1))
+            {
+                //아이템 제거
+                slotUIs[selectSlotObject].RemoveItem();
+                //선택해제
+                UpdateSelectSlot(null);
+            }            
+        }
+
+        //모든 아이템 장착 해제
+        public void UnEquipAll()
+        {
+            foreach (var slotObject in staticSlots)
+            {
+                //인벤토리에 제거하는 아이템 추가 - 인벤 풀 체크
+                if (UIManager.Instance.AddItemInventory(slotUIs[selectSlotObject].item, 1))
+                {
+                    //아이템 제거
+                    slotUIs[selectSlotObject].RemoveItem();
+                }
+            }
+            //선택해제
+            UpdateSelectSlot(null);
         }
         #endregion
     }
